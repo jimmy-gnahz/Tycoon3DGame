@@ -23,6 +23,8 @@ public class RoadManager : MonoBehaviour
 
     public void PlaceRoad(Vector3Int position)
     {
+        if (CheckCanPlaceRoad(position) == false)
+            return;
         if (placementManager.CheckIfPositionInBound(position) == false)
             return;
         if (placementManager.CheckIfPositionIsFree(position) == false)
@@ -66,6 +68,15 @@ public class RoadManager : MonoBehaviour
 
         FixRoadPrefabs();
 
+    }
+
+    internal bool CheckCanPlaceRoad(Vector3Int position)
+    {
+        if (placementManager.CheckIfOnBoundary(position) ||
+            placementManager.GetNeighboursOfTypeFor(position, CellType.Road).Count > 0)
+            return true;
+        Debug.Log("Has to be on edge of the map");
+        return false;
     }
 
     private void FixRoadPrefabs()

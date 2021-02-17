@@ -68,6 +68,18 @@ public class PlacementManager : MonoBehaviour
         return placementGrid[position.x, position.z] == type;
     }
 
+    internal bool CheckIfOnBoundary(Vector3Int position)
+    {
+        if(position.x == 0 ||
+            position.x == width-1 ||
+            position.z == 0 ||
+            position.z == height-1)
+        {
+            return true;
+        }
+        return false;
+    }
+
     internal void PlaceTemporaryStructure(Vector3Int position, GameObject structurePrefab, CellType type)
     {
         placementGrid[position.x, position.z] = type;
