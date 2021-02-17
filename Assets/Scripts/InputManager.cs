@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
 
     public Vector2 CameraMovementVector
     {
-        get { return cameraMovementVector; } 
+        get { return cameraMovementVector; }
     }
 
     private void Update()
@@ -28,7 +28,6 @@ public class InputManager : MonoBehaviour
         CheckArrowInput();
     }
 
-    // Check if user clicks the ground, if so, return ground position.
     private Vector3Int? RaycastGround()
     {
         RaycastHit hit;
@@ -48,13 +47,11 @@ public class InputManager : MonoBehaviour
 
     private void CheckClickHoldEvent()
     {
-        // check if object is not something in the UI
         if (Input.GetMouseButton(0) && EventSystem.current.IsPointerOverGameObject() == false)
         {
             var position = RaycastGround();
             if (position != null)
                 OnMouseHold?.Invoke(position.Value);
-
         }
     }
 
