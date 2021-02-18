@@ -7,6 +7,7 @@ using UnityEngine;
 public class RoadManager : MonoBehaviour
 {
     public PlacementManager placementManager;
+    public MoneyManager moneyManager;
 
     public List<Vector3Int> temporaryPlacementPositions = new List<Vector3Int>();
     public List<Vector3Int> roadPositionsToRecheck = new List<Vector3Int>();
@@ -106,6 +107,7 @@ public class RoadManager : MonoBehaviour
         if (temporaryPlacementPositions.Count > 0)
         {
             AudioPlayer.instance.PlayPlacementSound();
+            moneyManager.Spend(CellType.Road);
         }
         temporaryPlacementPositions.Clear();
         startPosition = Vector3Int.zero;

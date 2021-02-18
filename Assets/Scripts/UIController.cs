@@ -12,6 +12,9 @@ public class UIController : MonoBehaviour
     public Color outlineColor;
     List<Button> buttonList;
 
+    public GameObject moneyAmountText;
+    public GameObject moneyManager;
+
     private void Start()
     {
         buttonList = new List<Button> { placeGrassButton, placeHouseButton, placeRoadButton, placeSpecialButton, placeBigStructureButton };

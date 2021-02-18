@@ -9,7 +9,7 @@ public class StructureManager : MonoBehaviour
 {
     public StructurePrefabWeighted[] housePrefabs, specialPrefabs, grassPrefabs, bigStructuresPrefabs;
     public PlacementManager placementManager;
-
+    public MoneyManager moneyManager;
 
     private float[] houseWeights, specialWeights, grassWeights, bigStructuresWeights;
 
@@ -46,6 +46,7 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(bigStructuresWeights);
             placementManager.PlaceObjectOnTheMap(position, bigStructuresPrefabs[randomIndex].prefab, CellType.Structure, width, height);
             AudioPlayer.instance.PlayPlacementSound();
+            moneyManager.Spend(CellType.SpecialStructure);
         }
     }
 
@@ -61,6 +62,7 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(houseWeights);
             placementManager.PlaceObjectOnTheMap(position, housePrefabs[randomIndex].prefab, CellType.Structure);
             AudioPlayer.instance.PlayPlacementSound();
+            moneyManager.Spend(CellType.Structure);
         }
     }
 
@@ -71,6 +73,7 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(specialWeights);
             placementManager.PlaceObjectOnTheMap(position, specialPrefabs[randomIndex].prefab, CellType.Structure);
             AudioPlayer.instance.PlayPlacementSound();
+            moneyManager.Spend(CellType.Structure);
         }
     }
 
@@ -81,6 +84,8 @@ public class StructureManager : MonoBehaviour
             int randomIndex = GetRandomWeightedIndex(grassWeights);
             placementManager.PlaceObjectOnTheMap(position, grassPrefabs[randomIndex].prefab, CellType.Grass);
             AudioPlayer.instance.PlayPlacementSound();
+            moneyManager.Spend(CellType.Grass);
+            
         }
     }
 
