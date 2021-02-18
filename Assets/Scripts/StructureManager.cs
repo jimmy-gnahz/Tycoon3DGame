@@ -7,17 +7,51 @@ using UnityEngine;
 
 public class StructureManager : MonoBehaviour
 {
-    public StructurePrefabWeighted[] housePrefabs, specialPrefabs, grassPrefabs;
+    public StructurePrefabWeighted[] housePrefabs, specialPrefabs, grassPrefabs, bigStructuresPrefabs;
     public PlacementManager placementManager;
 
 
-    private float[] houseWeights, specialWeights, grassWeights;
+    private float[] houseWeights, specialWeights, grassWeights, bigStructuresWeights;
 
     private void Start()
     {
         houseWeights = housePrefabs.Select(prefabStats => prefabStats.weight).ToArray();
         specialWeights = specialPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
         grassWeights = grassPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
+        bigStructuresWeights = bigStructuresPrefabs.Select(prefabStats => prefabStats.weight).ToArray();
+    }
+
+    public void PlaceBigStructure(Vector3Int position)
+    {
+        int width = 2;
+        int height = 2;
+
+        bool nearRoad = true;
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+                var newPosition = position + new Vector3Int(x, 0, z);
+                nearRoad = nearRoad && CheckPositionBeforePlacement(newPosition, CellType.Structure);
+            }
+        }
+        if (!nearRoad)
+        {
+            Debug.Log("Failed here");
+            return;
+        }
+
+        if (CheckPositionBeforePlacement(position, CellType.Structure))
+        {
+            int randomIndex = GetRandomWeightedIndex(bigStructuresWeights);
+            placementManager.PlaceObjectOnTheMap(position, bigStructuresPrefabs[randomIndex].prefab, CellType.Structure, width, height);
+            AudioPlayer.instance.PlayPlacementSound();
+        }
+    }
+
+    private bool CheckBigStructure(Vector3Int position, int width, int height)
+    {
+        throw new NotImplementedException();
     }
 
     public void PlaceHouse(Vector3Int position)
@@ -85,7 +119,7 @@ public class StructureManager : MonoBehaviour
         {
             if (!placementManager.CheckIfPositionIsGrass(position))
             {
-                Debug.Log("This position is not GRASS");
+                Debug.Log("This position is not GRASS：" + position.x + " " + position.z);
                 return false;
             }
         }

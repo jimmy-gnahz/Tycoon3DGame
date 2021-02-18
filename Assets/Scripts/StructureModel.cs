@@ -8,7 +8,9 @@ public class StructureModel : MonoBehaviour
 
     public void CreateModel(GameObject model)
     {
+        Debug.Log("in create model");
         var structure = Instantiate(model, transform);
+        Debug.Log("in create model");
         yHeight = structure.transform.position.y;
 
     }

@@ -30,18 +30,28 @@ public class PlacementManager : MonoBehaviour
         return false;
     }
 
-    internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, CellType type)
+    internal void PlaceObjectOnTheMap(Vector3Int position, GameObject structurePrefab, CellType type, int width = 1, int height = 1)
     {
-        placementGrid[position.x, position.z] = type;
+
         StructureModel structure = CreateANewStructureModel(position, structurePrefab, type);
 
-        if (structureDictionary.ContainsKey(position))
+        for (int x = 0; x < width; x++)
         {
-            Destroy(structureDictionary[position].gameObject);
-            structureDictionary.Remove(position);
+            for (int z = 0; z < height; z++)
+            {
+                var newPosition = position + new Vector3Int(x, 0, z);
+                placementGrid[newPosition.x, newPosition.z] = type;
+                Debug.Log("x axis is " + x);
+                Debug.Log("z axis is:" + z);
+                if (structureDictionary.ContainsKey(position))
+                {
+                    Destroy(structureDictionary[position].gameObject);
+                    structureDictionary.Remove(position);
+                }
+                //structureDictionary.Add(newPosition, structure);
+                DestroyNatureAt(newPosition);
+            }
         }
-        structureDictionary.Add(position, structure);
-        DestroyNatureAt(position);
     }
 
     private void DestroyNatureAt(Vector3Int position)
@@ -102,8 +112,10 @@ public class PlacementManager : MonoBehaviour
     {
         GameObject structure = new GameObject(type.ToString());
         structure.transform.SetParent(transform);
+        Debug.Log("structure: " + structure.name);
         structure.transform.localPosition = position;
         var structureModel = structure.AddComponent<StructureModel>();
+        Debug.Log("structure x: " + structure.transform.position.x);
         structureModel.CreateModel(structurePrefab);
         return structureModel;
     }

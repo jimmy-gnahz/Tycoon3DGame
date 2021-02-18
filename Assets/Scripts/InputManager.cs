@@ -35,8 +35,6 @@ public class InputManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundMask))
         {
             Vector3Int positionInt = Vector3Int.RoundToInt(hit.point);
-            Debug.Log(positionInt.x);
-            Debug.Log(positionInt.z);
             return positionInt;
         }
         return null;
