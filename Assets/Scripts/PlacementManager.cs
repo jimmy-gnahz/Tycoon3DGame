@@ -41,8 +41,7 @@ public class PlacementManager : MonoBehaviour
             {
                 var newPosition = position + new Vector3Int(x, 0, z);
                 placementGrid[newPosition.x, newPosition.z] = type;
-                Debug.Log("x axis is " + x);
-                Debug.Log("z axis is:" + z);
+
                 if (structureDictionary.ContainsKey(position))
                 {
                     Destroy(structureDictionary[position].gameObject);

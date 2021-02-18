@@ -9,10 +9,9 @@ public class GameManager : MonoBehaviour
     public CameraMovement cameraMovement;
     public RoadManager roadManager;
     public InputManager inputManager;
+    public StructureManager structureManager;
 
     public UIController uiController;
-
-    public StructureManager structureManager;
 
     private void Start()
     {
